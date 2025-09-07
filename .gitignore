@@ -41,6 +41,8 @@ Thumbs.db
 /bin/
 /build/
 /dist/
+*-test
+*-test.exe
 
 # Configuration files with secrets
 config.json

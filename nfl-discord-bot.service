@@ -1,0 +1,49 @@
+[Unit]
+Description=NFL Discord Bot - Advanced NFL statistics and data bot
+Documentation=https://github.com/your-username/nfl-discord-bot
+After=network.target network-online.target
+Wants=network-online.target
+Requires=network.target
+
+[Service]
+Type=simple
+User=nflbot
+Group=nflbot
+WorkingDirectory=/opt/nfl-discord-bot
+ExecStart=/opt/nfl-discord-bot/nfl-bot
+ExecReload=/bin/kill -HUP $MAINPID
+
+# Restart policy
+Restart=always
+RestartSec=10
+StartLimitInterval=60s
+StartLimitBurst=3
+
+# Security settings
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectSystem=strict
+ProtectHome=true
+ReadWritePaths=/opt/nfl-discord-bot/logs
+ReadWritePaths=/opt/nfl-discord-bot/data
+
+# Environment file
+EnvironmentFile=/opt/nfl-discord-bot/.env
+
+# Resource limits
+LimitNOFILE=65536
+MemoryLimit=512M
+CPUQuota=50%
+
+# Logging
+StandardOutput=journal
+StandardError=journal
+SyslogIdentifier=nfl-discord-bot
+
+# Process management
+KillMode=mixed
+KillSignal=SIGTERM
+TimeoutStopSec=30
+
+[Install]
+WantedBy=multi-user.target

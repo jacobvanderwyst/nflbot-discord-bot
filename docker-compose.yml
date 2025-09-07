@@ -1,0 +1,58 @@
+version: '3.8'
+
+services:
+  nfl-bot:
+    build: .
+    image: nfl-discord-bot:latest
+    container_name: nfl-discord-bot
+    restart: unless-stopped
+    
+    # Environment variables
+    environment:
+      - DISCORD_TOKEN=${DISCORD_TOKEN}
+      - NFL_API_KEY=${NFL_API_KEY}
+      - NFL_API_BASE_URL=${NFL_API_BASE_URL:-https://api.sportsdata.io/v3/nfl}
+      - BOT_PREFIX=${BOT_PREFIX:-!}
+      - COMMAND_COOLDOWN=${COMMAND_COOLDOWN:-3}
+      - MAX_CONCURRENT_REQUESTS=${MAX_CONCURRENT_REQUESTS:-10}
+      - LOG_LEVEL=${LOG_LEVEL:-info}
+      - LOG_FILE=${LOG_FILE:-bot.log}
+      - STATS_UPDATE_INTERVAL=${STATS_UPDATE_INTERVAL:-30}
+      - SCHEDULE_UPDATE_INTERVAL=${SCHEDULE_UPDATE_INTERVAL:-1440}
+      - BOT_ALLOWED_ROLE=${BOT_ALLOWED_ROLE:-}
+      - BOT_VISIBILITY_ROLE=${BOT_VISIBILITY_ROLE:-}
+    
+    # Mount logs volume for persistence
+    volumes:
+      - ./logs:/app/logs
+      - ./data:/app/data  # For any future data persistence needs
+    
+    # Resource limits
+    deploy:
+      resources:
+        limits:
+          memory: 512M
+          cpus: '0.5'
+        reservations:
+          memory: 256M
+          cpus: '0.25'
+    
+    # Logging configuration
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"
+    
+    # Health check
+    healthcheck:
+      test: ["CMD", "ps", "aux", "|", "grep", "[n]fl-bot", "||", "exit", "1"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 30s
+
+# Create necessary volumes
+volumes:
+  logs:
+  data:
