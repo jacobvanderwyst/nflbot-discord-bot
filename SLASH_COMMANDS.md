@@ -15,13 +15,29 @@ The bot now supports Discord slash commands with complete NFL API functionality:
 ### **Ephemeral Message System**
 **Environment Variable: `BOT_VISIBILITY_ROLE`**
 
-**Behavior:**
-- If `BOT_VISIBILITY_ROLE` is **not set**: All slash command responses are **public** (everyone can see them)
-- If `BOT_VISIBILITY_ROLE` is **set**: All slash command responses are **ephemeral** (only the user who ran the command can see them)
+**👁️ Visibility Control Behavior:**
 
-This provides a clean separation:
-- **Traditional commands** (`!stats Josh Allen`) → Always public
-- **Slash commands** (`/stats player:Josh Allen`) → Ephemeral when visibility role is configured
+#### **OPTION 1: `BOT_VISIBILITY_ROLE` not set (Default)**
+```env
+BOT_VISIBILITY_ROLE=
+```
+- **Traditional commands** (`!stats Josh Allen`) → **Public** (everyone sees)
+- **Slash commands** (`/stats player:Josh Allen`) → **Public** (everyone sees)
+- **Use case**: Community servers, fantasy leagues where sharing is encouraged
+
+#### **OPTION 2: `BOT_VISIBILITY_ROLE` set to any role**
+```env
+BOT_VISIBILITY_ROLE="VIP Members"
+BOT_VISIBILITY_ROLE="Members"  # Any role name works
+```
+- **Traditional commands** (`!stats Josh Allen`) → **Public** (everyone sees)
+- **Slash commands** (`/stats player:Josh Allen`) → **Ephemeral** (only user sees)
+- **Use case**: Clean channels, reduced spam, private research with public sharing option
+
+**💡 Strategic Usage:**
+This dual-command system lets users choose:
+- **`/stats`** for private research and personal use
+- **`!stats`** when they want to share stats with the channel
 
 ## 🔧 **Setup Instructions**
 

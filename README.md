@@ -156,13 +156,40 @@ The bot automatically detects the current NFL week with intelligent logic:
 | `LOG_LEVEL` | ❌ No | `info` | Logging level (debug, info, warn, error) |
 | `LOG_FILE` | ❌ No | `bot.log` | Log file path |
 | `COMMAND_COOLDOWN` | ❌ No | `3` | Cooldown between commands (seconds) |
+| `BOT_ALLOWED_ROLE` | ❌ No | - | Role required to use bot commands |
+| `BOT_VISIBILITY_ROLE` | ❌ No | - | **Controls slash command visibility** |
 
-## 📊 Performance Features
+## 🔥 Performance Features
 
 - **⚡ 5-Minute Caching**: API responses cached for 5 minutes
 - **📋 Smart Logging**: Request tracking and performance monitoring
 - **🔄 Auto-Cleanup**: Expired cache entries automatically removed
 - **⏱️ Rate Limiting**: Respects API rate limits
+
+## 👁️ Message Visibility Control
+
+### Ephemeral Slash Commands
+Control who can see slash command responses with `BOT_VISIBILITY_ROLE`:
+
+#### **Not Set (Default)**: All Public
+```env
+BOT_VISIBILITY_ROLE=
+```
+- **Traditional commands** (`!stats Josh Allen`) → **Everyone sees response**
+- **Slash commands** (`/stats player:Josh Allen`) → **Everyone sees response**
+- Perfect for **community servers** where sharing is encouraged
+
+#### **Set to Role**: Slash Commands Private
+```env
+BOT_VISIBILITY_ROLE="VIP Members"
+```
+- **Traditional commands** (`!stats Josh Allen`) → **Everyone sees response** (for sharing)
+- **Slash commands** (`/stats player:Josh Allen`) → **Only user sees response** (private)
+- Perfect for **clean channels** – reduces spam while keeping sharing option
+
+**💡 Pro Tip**: Use both command types strategically:
+- Use `/stats` for personal research (private)
+- Use `!stats` for sharing with the channel (public)
 
 ## 📝 Project Structure
 

@@ -223,7 +223,18 @@ docker run -it --rm \
 | `LOG_LEVEL` | ❌ No | `info` | Logging level |
 | `LOG_FILE` | ❌ No | `bot.log` | Log file path |
 | `BOT_ALLOWED_ROLE` | ❌ No | - | Role required to use bot |
-| `BOT_VISIBILITY_ROLE` | ❌ No | - | Role for ephemeral slash commands |
+| `BOT_VISIBILITY_ROLE` | ❌ No | - | **Controls slash command visibility** |
+
+### Message Visibility Control
+
+**Important**: The `BOT_VISIBILITY_ROLE` setting controls whether slash command responses are public or private:
+
+- **Not set** (`BOT_VISIBILITY_ROLE=`) → All commands public (everyone sees responses)
+- **Set to any role** (`BOT_VISIBILITY_ROLE="Members"`) → Slash commands are ephemeral (only user sees them)
+
+This allows strategic usage:
+- Use `/stats` for private research
+- Use `!stats` for sharing with the channel
 
 ### File Locations
 
